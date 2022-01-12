@@ -20,7 +20,7 @@ const data = {
         {
             name:'Samsung Galaxy Z Flip3 5G',
             category: 'Phone',
-            image:'/image/download.jpg',
+            image:'/image/download-1.jpg',
             price: 1200,
             countInStock : 10,
             brand: 'Samsung',
@@ -31,7 +31,7 @@ const data = {
         {
             name:'Iphone 7',
             category: 'Phone',
-            image:'/image/download-1.jpg',
+            image:'/image/download.jpg',
             price: 799,
             countInStock: 0,
             brand: 'Iphone',
@@ -42,7 +42,7 @@ const data = {
         {
             name:'Chanel Boy',
             category: 'Bags',
-            image:'/image/download-2.jpg',
+            image:'/image/download-3.jpg',
             price: 4999,
             countInStock: 8,
             brand: 'Chanel',
@@ -53,7 +53,7 @@ const data = {
         {
             name:'Chanel Classic',
             category: 'Bags',
-            image:'/image/download-3.jpg',
+            image:'/image/download-2.jpg',
             price: 6299,
             countInStock: 4,
             brand: 'Chanel',
@@ -64,7 +64,7 @@ const data = {
         {
             name:'Chanel Boy Mini',
             category: 'Bags',
-            image:'/image/download-4.jpg',
+            image:'/image/download-5.jpg',
             price: 3999,
             countInStock: 8,
             brand: 'Chanel',
@@ -75,7 +75,7 @@ const data = {
         {
             name:'Chanel',
             category: 'Bags',
-            image:'/image/download-5.jpg',
+            image:'/image/download-4.jpg',
             price: 4999,
             countInStock: 9,
             brand: 'Chanel',
