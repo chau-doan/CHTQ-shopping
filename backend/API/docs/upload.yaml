@@ -1,0 +1,35 @@
+paths:
+  /api/uploads/:
+    post:
+      summary: Upload image to host server
+      tags:
+        - Upload
+      description: Upload product's image directly to backend's server
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+      responses:
+        200:
+          description: Path to the image
+  /api/uploads/s3:
+    post:
+      summary: Upload image to AWS server
+      tags:
+        - Upload
+      description: Upload product's image to AWS server
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+      responses:
+        200:
+          description: Link to the uploaded image

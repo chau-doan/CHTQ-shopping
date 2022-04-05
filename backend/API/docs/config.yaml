@@ -1,0 +1,62 @@
+components:
+  parameters:
+    Header:
+      name: authorization
+      in: headers
+      required: true
+      description: An access token to verify login status.
+      schema:
+        type: object
+        properties:
+          authorization:
+            type: string
+        example:
+          authorization: "Bearer {Token}"
+    pageNumber:
+      name: pageNumber
+      in: query
+      description: Request at paticular page
+      type: number
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+    UnauthorizedRequest:
+      description: Unauthorized Request
+    Duplicated:
+      description: Duplicated Detected
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Message
+
+paths:
+  /api/config/paypal:
+    get:
+      summary: PayPal client ID key
+      tags:
+        - Configuration
+      description: Return an PayPal client ID for configuration payment service
+      response:
+        200:
+          description: Paypal client ID
+        404:
+          description: Not found
+
+  /api/config/google:
+    get:
+      summary: Google API Key
+      tags:
+        - Configuration
+      description: Return an Google API key for Google Map configuration
+      response:
+        200:
+          description: Google API Key
+        404:
+          description: Not found

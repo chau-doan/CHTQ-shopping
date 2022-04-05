@@ -1,0 +1,346 @@
+components:
+  parameters:
+    orderId:
+      name: id
+      in: path
+      description: ID of the order
+      type: string
+
+definitions:
+  productOrder:
+    type: object
+    properties:
+      name:
+        type: string
+        required: true
+        description: Product's name
+      qty:
+        type: number
+        required: true
+        description: Quantity of product
+      image:
+        type: string
+        required: true
+        description: Link to the product's image
+      price:
+        type: string
+        required: true
+        description: Price of production at the time product is purchased
+      options:
+        type: object
+      product:
+        type: string
+        required: true
+        description: ID of the product
+
+  Address:
+    type: object
+    properties:
+      fullname:
+        type: string
+        description: Full name of order's user
+      address:
+        type: string
+        description: Shipping destination's address
+      city:
+        type: string
+        description: Shipping destination's city
+      postalCode:
+        type: number
+        description: Shipping destination's zipcode
+      country:
+        type: string
+        description: Shipping destination's country
+
+  paymentResult:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID of the payment
+      status:
+        type: string
+        description: Payment Status
+      update_time:
+        type: string
+        description: Time the payment are made
+
+  Order:
+    type: object
+    properties:
+      orderItems:
+        type: array
+        required: true
+        items:
+          $ref: '#/definitions/productOrder'
+      shippingAddress:
+        $ref: '#/definitions/Address'
+      paymentMethod:
+        type: string
+        required: true
+        description: Name of payment method
+      itemsPrice:
+        type: number
+        required: true
+        description: Total product price
+      shippingPrice:
+        type: number
+        required: true
+        description: Shipping fee
+      taxPrice:
+        type: number
+        required: true
+        description: Tax fee
+      totalPrice:
+        type: number
+        required: true
+        description: Total price of order
+      paymentResult:
+        $ref: '#/definitions/paymentResult'
+
+paths:
+  /api/orders/:
+    get:
+      summary: All Order (Admin)
+      tags:
+        - Order
+      description: Route for Admin to get a list of all order
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      responses:
+        200:
+          desciption: Successful get list of order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: number
+                    description: Current page number
+                  pages:
+                    type: number
+                    description: Total pages exist
+                  orders:
+                    $ref: '#/definitions/Order'
+    post:
+      summary: Place order
+      tags:
+        - Order
+      description: User place their order
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      requestBody:
+        required: true
+        description: Mandatory to create a order
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/Order'
+      responses:
+        201:
+          description: Order create successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  order:
+                    $ref: '#/definitions/Order'
+        404:
+          description: Fail to place order
+
+  /api/orders/{id}/:
+    get:
+      summary: Get order by ID
+      tags:
+        - Order
+      description: Get particular order by it's ID
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Order'
+        404:
+          description: Order Not Found
+    delete:
+      summary: Delete order by ID (Admin)
+      tags:
+        - Order
+      description: Route for Admin to delete particular order by it's ID
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          description: Successfully delete order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  order:
+                    $ref: '#/definitions/Order'
+        404:
+          description: Order Not Found
+
+  /api/orders/summary/:
+    get:
+      summary: Get summary
+      tags:
+        - Order
+      description: Route for Admin to get statictis data of summary of order
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      responses:
+        200:
+          description: Successful getting the statictis data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: Number
+                    description: Number of user exist in database
+                  orders:
+                    type: Number
+                    description: Number of order exist in database
+                  dailyOrders:
+                    type: object
+                    description: Number of order of each day
+                  productCategories:
+                    type: object
+                    description: Number of product of each category
+
+  /api/orders/mine/:
+    get:
+      summary: List of order
+      tags:
+        - Order
+      description: Get a list of personal's order
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      responses:
+        200:
+          desciption: Successful get list of order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: number
+                    description: Current page number
+                  pages:
+                    type: number
+                    description: Total pages exist
+                  orders:
+                    $ref: '#/definitions/Order'
+
+  /api/orders/user/{id}/:
+    get:
+      summary: Get order by user's ID
+      tags:
+        - Order
+      description: Get list of order by ID. Admin can get order list of all order user, but ordinary user can only get their own list
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      responses:
+        200:
+          desciption: Successful get list of order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    description: Number of order
+                  orders:
+                    $ref: '#/definitions/Order'
+        404:
+          description: Error
+
+  /{id}/deliver/:
+    put:
+      summary: Deliver order (Admin)
+      tags:
+        - Order
+      description: Route for Admin to comfirm deliveried status
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          desciption: Successful deliveried
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  orders:
+                    $ref: '#/definitions/Order'
+        404:
+          description: Error
+
+  /{id}/cancelrequest/:
+    put:
+      summary: Request Cancel order
+      tags:
+        - Order
+      description: User request to cancel order and wait for Admin comfirmation
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          desciption: Successful requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  orders:
+                    $ref: '#/definitions/Order'
+        404:
+          description: Error
+
+  /{id}/canceled/:
+    put:
+      summary: Comfirm cancalation (Admin)
+      tags:
+        - Order
+      description: Route for Admin to comfirm user cancelation request
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          desciption: Successful canceled order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  orders:
+                    $ref: '#/definitions/Order'
+        404:
+          description: Error
+
+

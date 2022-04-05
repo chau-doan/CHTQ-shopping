@@ -1,0 +1,59 @@
+/* chatbox */
+.chatbox {
+    color: #000000;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+}
+.chatbox ul {
+    overflow: scroll;
+    max-height: 20rem;
+}
+.chatbox li {
+    margin-bottom: 1rem;
+}
+.chatbox input {
+    width: calc(100% - 9rem);
+}
+
+/* Message Box */
+.alert {
+  padding: 1rem;
+  border: 0.1rem solid transparent;
+  border-radius: 0.5rem;
+}
+
+.alert-info {
+  color: #2020a0;
+  background-color: #e0e0ff;
+}
+
+.alert-danger {
+  color: #a02020;
+  background-color: #ffe0e0;
+}
+
+.alert-success {
+  color: #20a020;
+  background-color: #eeffe0;
+}
+
+/* Status */
+.status {
+    margin-left: 0;
+    padding-left: 1em;
+    list-style-type: disc;
+    font-weight: bold;
+}
+
+.status-danger {
+    color: #f00;
+}
+
+.status-success {
+    color: #20a020;
+}
+
+.status-warning {
+    color: #de8c13;
+}

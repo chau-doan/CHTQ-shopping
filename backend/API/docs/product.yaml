@@ -1,0 +1,313 @@
+components:
+  parameters:
+    productId:
+      name: id
+      in: path
+      description: ID of the product
+      type: string
+    productName:
+      name: name
+      in: query
+      description: Name of the product
+      type: string
+    category:
+      name: category
+      in: query
+      description: Category of the product
+      type: string
+    brand:
+      name: brand
+      in: query
+      description: Brand of the product
+      type: string
+    order:
+      name: order
+      in: query
+      description: Order to sort the return product
+      type: string
+    min:
+      name: min
+      in: query
+      description: Minimum price
+      type: number
+    max:
+      name: max
+      in: query
+      description: Maximum price
+      type: number
+    rating:
+      name: rating
+      in: query
+      description: Get product have higher rating score
+      type: number
+
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          require: true
+          description: Product's name
+        image:
+          type: string
+          require: true
+          description: Link to the product's image
+        price:
+          type: number
+          require: true
+          description: Product's price
+        category:
+          type: string
+          require: true
+          description: Product's category
+        brand:
+          type: string
+          require: true
+          description: Product's brand
+        countInStock:
+          type: number
+          require: true
+          description: Number of product available in stock
+        attribute:
+          type: array
+          require: false
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                require: true
+                description: Name of attribute
+              options:
+                type: array
+                require: true
+                description: List of available option in stock
+                items:
+                  type: string
+        description:
+          type: string
+          require: true
+          description: Product's description
+
+definitions:
+  Product:
+    type: object
+    properties:
+      name:
+        type: string
+        require: true
+        description: Product's name
+      image:
+        type: string
+        require: true
+        description: Link to the product's image
+      price:
+        type: number
+        require: true
+        description: Product's price
+      category:
+        type: string
+        require: true
+        description: Product's category
+      brand:
+        type: string
+        require: true
+        description: Product's brand
+      countInStock:
+        type: number
+        require: true
+        description: Number of product available in stock
+      rating:
+        type: number
+        description: Rating score of the product
+      numReviews:
+        type: number
+        description: Number of review that user made for product
+      attribute:
+        type: array
+        require: false
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+              require: true
+              description: Name of attribute
+            options:
+              type: array
+              require: true
+              description: List of available option in stock
+              items:
+                type: string
+      description:
+        type: string
+        require: true
+        description: Product's description
+
+paths:
+  /api/products/:
+    get:
+      summary: List of products
+      tags:
+        - Product
+      description: Get list of product at satisfy the query condition
+      parameters:
+        - $ref: '#/components/parameters/productName'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/brand'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/min'
+        - $ref: '#/components/parameters/max'
+        - $ref: '#/components/parameters/rating'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: number
+                    description: Current page number
+                  pages:
+                    type: number
+                    description: Total pages exist
+                  products:
+                    type: array
+                    description: List of all product that satisfy the query condition
+                    items:
+                      $ref: '#/definitions/Product'
+    post:
+      summary: Create new product (Admin)
+      tags:
+        - Product
+      description: Route for Admin to add new product to database
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      requestBody:
+        required: true
+        description: Mandatory to create new product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Successful create new product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  product:
+                    $ref: '#/definitions/Product'
+        400:
+          $ref: '#/components/responses/UnauthorizedRequest'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          $ref: '#/components/responses/Duplicated'
+
+  /api/products/{id}/:
+    get:
+      summary: Get product by ID
+      tags:
+        - Product
+      description: Get product by it ID
+      parameters:
+        - $ref: '#/components/parameters/productId'
+      responses:
+        200:
+          description: Product Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Product'
+        404:
+          description: Product Not Found
+    put:
+      summary: Update product (Admin)
+      tags:
+        - Product
+      description: Route for Admin to update product information by ID
+      parameteres:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/productId'
+      requestBody:
+        required: true
+        description: Mandatory to update product's information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Successful update product's information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  product:
+                    $ref: '#/definitions/Product'
+        404:
+          description: Product Not Found
+    delete:
+      summary: Delete product (Admin)
+      tags:
+        - Product
+      description: Route for Admin to delete product by it's ID
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/productId'
+      responses:
+        200:
+          description: Successful delete product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  product:
+                    $ref: '#/definitions/Product'
+        404:
+          description: Product Not Found
+
+  /api/products/categories/:
+    get:
+      summary: Catagories list
+      tags:
+        - Product
+      description: Get a list of all distinct categories in database
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+
+  /api/products/brands/:
+    get:
+      summary: Brands list
+      tags:
+        - Product
+      description: Get a list of all distinct brands in database
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string

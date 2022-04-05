@@ -1,0 +1,175 @@
+components:
+  parameters:
+    reviewId:
+      name: id
+      in: path
+      description: ID of the review
+      type: string
+
+definitions:
+  Review:
+    type: object
+    properties:
+      rating:
+        type: number
+        description: Rating score for product
+      comment:
+        type: string
+        description: User's review for product
+
+  ReviewResponse:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: ID of the review
+      user:
+        type: object
+        description: Information of the user who made a review
+      product:
+        type: object
+        description: Information of tht product the review for
+      rating:
+        type: number
+        description: Rating score for product
+      comment:
+        type: string
+        description: User's review for product
+
+
+paths:
+  /api/reviews/user:
+    get:
+      summary: Get user's reviews
+      tags:
+        - Review
+      description: Get a list of reviews made by user
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/ReviewResponse'
+        404:
+          description: Error
+
+
+  /api/reviews/product/{id}:
+    get:
+      summary: Get product's review
+      tags:
+        - Review
+      description: Get a list of review of the product
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/productId'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/ReviewResponse'
+        404:
+          description: Error
+
+  /api/reviews/user/{id}:
+    get:
+      summary: Get list of user's comment (Admin)
+      tags:
+        - Review
+      description: Route for Admin to get all user's reviews
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/user_id'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/ReviewResponse'
+        404:
+          description: Error
+
+  /api/reviews/{id}/:
+    post:
+      summary: Create review
+      tags:
+        - Review
+      description: User post their review for product
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/productId'
+      requestBody:
+        required: true
+        description: Mandatory to made a review
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/Review'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/ReviewResponse'
+        404:
+          description: Error
+
+    put:
+      summary: Update Review
+      tags:
+        - Review
+      description: User adjust their review
+      parameters:
+        - $ref: '#/components/parameters/Header'
+        - $ref: '#/components/parameters/reviewId'
+      requestBody:
+        required: true
+        description: Mandatory to made a update review
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/Review'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/ReviewResponse'
+        404:
+          description: Error
+
+    delete:
+      summary: Delete Review
+      tags:
+        - Review
+      description: For user to delete their review or Admin delete order user's review
+      parameters:
+        - $ref: '#/components/parameters/Header'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  deletedOrder:
+                    $ref: '#/definitions/ReviewResponse'
+        404:
+          description: Error

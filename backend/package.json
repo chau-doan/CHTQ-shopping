@@ -1,0 +1,34 @@
+{
+  "name": "shopping_cart_api",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "RESTful API for Shopping Cart Aplication",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "CMPE 195 Group 9",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1052.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "^6.1.5",
+    "multer": "^1.4.4",
+    "multer-s3": "^2.10.0",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui": "^4.6.1",
+    "swagger-ui-express": "^4.3.0"
+  }
+}

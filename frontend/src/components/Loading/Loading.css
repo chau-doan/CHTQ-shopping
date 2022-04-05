@@ -1,0 +1,41 @@
+.loading {
+    display: block !important;
+}
+
+/* Loading Animation */
+.skeleton {
+    opacity: 0.7;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-text {
+    width: 60%;
+    height: 2rem;
+    border-radius: .125rem;
+    margin-left: 1rem;
+}
+
+.skeleton-text:first-child{
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.skeleton-text:last-child{
+    width: 20%;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
+.skeleton-img-medium {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    width: 27rem;
+    height: 355px;
+}
