@@ -9,7 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Connect database
-const url = `mongodb+srv://admin:${process.env.MONGO_ATLAS_PW}@senior-project-chtq.wtz24.mongodb.net/seniorproject`
+//const url = `mongodb+srv://admin:${process.env.MONGO_ATLAS_PW}@senior-project-chtq.wtz24.mongodb.net/seniorproject`
+const url = "mongodb://mongodb:27017/shopping-cart"
 mongoose.connect(url);
 
 // Import routes

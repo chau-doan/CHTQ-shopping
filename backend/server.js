@@ -1,8 +1,8 @@
 import http from 'http';
 import app from './app.js';
 import { Server } from 'socket.io';
-// Using port at server or local server at port 5000
-const port = process.env.PORT || 5000;
+// Using port at server or local server at port 4000
+const port = process.env.PORT || 4000;
 /*
 const server = http.createServer(app);
 
